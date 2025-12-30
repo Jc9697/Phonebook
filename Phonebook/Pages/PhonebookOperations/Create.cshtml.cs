@@ -32,13 +32,33 @@ namespace Phonebook.Pages.PhonebookOperations
         {
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState is invalid");
                 return Page();
             }
+            try
+            {
+                var existingContact = _context.Contacts
+                    .FirstOrDefault(c => c.Email == Contact.Email);
+                if (existingContact != null)
+                {
+                    ModelState.AddModelError("Contact.Email", "A contact with this email already exists.");
+                    return Page();
+                }
+                else
+                {
+                    _context.Contacts.Add(Contact);
+                    await _context.SaveChangesAsync();
 
-            _context.Contacts.Add(Contact);
-            await _context.SaveChangesAsync();
+                    return RedirectToPage("./Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error checking for existing contact: {ex.Message}");
+                ModelState.AddModelError(string.Empty, "An error occurred while processing your request.");
+                return RedirectToPage("./Index");
+            }
 
-            return RedirectToPage("./Index");
         }
     }
 }
