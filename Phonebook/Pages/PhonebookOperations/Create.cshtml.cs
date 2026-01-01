@@ -37,26 +37,27 @@ namespace Phonebook.Pages.PhonebookOperations
             }
             try
             {
-                var existingContact = _context.Contacts
+                _context.Contacts.Add(Contact);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                var existingContactEmail = _context.Contacts
                     .FirstOrDefault(c => c.Email == Contact.Email);
-                if (existingContact != null)
+                var existingContactNumber = _context.Contacts
+                    .FirstOrDefault(c => c.PhoneNumber == Contact.PhoneNumber);
+                if (existingContactEmail != null)
                 {
                     ModelState.AddModelError("Contact.Email", "A contact with this email already exists.");
                     return Page();
                 }
-                else
+                if (existingContactNumber != null)
                 {
-                    _context.Contacts.Add(Contact);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToPage("./Index");
+                    ModelState.AddModelError("Contact.PhoneNumber", "A contact with this number already exists.");
+                    return Page();
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error checking for existing contact: {ex.Message}");
-                ModelState.AddModelError(string.Empty, "An error occurred while processing your request.");
-                return RedirectToPage("./Index");
+                return Page();
             }
 
         }

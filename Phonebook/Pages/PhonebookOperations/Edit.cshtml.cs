@@ -30,7 +30,7 @@ namespace Phonebook.Pages.PhonebookOperations
                 return NotFound();
             }
 
-            var contact =  await _context.Contacts.FirstOrDefaultAsync(m => m.Id == id);
+            var contact = await _context.Contacts.FirstOrDefaultAsync(m => m.Id == id);
             if (contact == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace Phonebook.Pages.PhonebookOperations
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!ContactExists(Contact.Id))
                 {
@@ -65,7 +65,24 @@ namespace Phonebook.Pages.PhonebookOperations
                     throw;
                 }
             }
-
+            catch (DbUpdateException ex)
+            {
+                var existingContactEmail = _context.Contacts
+                    .FirstOrDefault(c => c.Email == Contact.Email && c.Id != Contact.Id);
+                var existingContactNumber = _context.Contacts
+                    .FirstOrDefault(c => c.PhoneNumber == Contact.PhoneNumber && c.Id != Contact.Id);
+                if (existingContactEmail != null)
+                {
+                    ModelState.AddModelError("Contact.Email", "A contact with this email already exists.");
+                    return Page();
+                }
+                if (existingContactNumber != null)
+                {
+                    ModelState.AddModelError("Contact.PhoneNumber", "A contact with this number already exists.");
+                    return Page();
+                }
+                throw;
+            }
             return RedirectToPage("./Index");
         }
 
