@@ -30,6 +30,11 @@
                 <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Contact.Category" class="control-label"></label>
+                <input asp-for="Contact.Category" class="form-control" />
+                <span asp-validation-for="Contact.Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

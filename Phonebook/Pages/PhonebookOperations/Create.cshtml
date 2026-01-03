@@ -1,32 +1,37 @@
 ﻿@page
 @model Phonebook.Pages.PhonebookOperations.CreateModel
 
-        @{
-        ViewData["Title"] = "Create";
-        }
-        
-        <h1>Create</h1>
-        
-    <h4>Contact</h4>
-    <hr />
-    <div class="row">
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Contact</h4>
+<hr />
+<div class="row">
     <div class="col-md-4">
-    <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Contact.Name" class="control-label"></label>
-                <input asp-for="Contact.Name" class="form-control" placeholder="Bob"/>
+                <input asp-for="Contact.Name" class="form-control" placeholder="Bob" />
                 <span asp-validation-for="Contact.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Contact.Email" class="control-label"></label>
-                <input asp-for="Contact.Email" class="form-control" placeholder="bob@gmail.com"/>
+                <input asp-for="Contact.Email" class="form-control" placeholder="bob@gmail.com" />
                 <span asp-validation-for="Contact.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Contact.PhoneNumber" class="control-label"></label>
-                <input asp-for="Contact.PhoneNumber" class="form-control" placeholder="(1234567890)"/>
+                <input asp-for="Contact.PhoneNumber" class="form-control" placeholder="(1234567890)" />
                 <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact.Category" class="control-label"></label>
+                <input asp-for="Contact.Category" class="form-control" placeholder="Friend, Family, Work"/>
+                <span asp-validation-for="Contact.Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -40,5 +45,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

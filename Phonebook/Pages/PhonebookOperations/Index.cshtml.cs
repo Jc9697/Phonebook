@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Phonebook.Data;
 using Phonebook.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Phonebook.Pages.PhonebookOperations
 {
@@ -19,11 +21,21 @@ namespace Phonebook.Pages.PhonebookOperations
             _context = context;
         }
 
-        public IList<Contact> Contact { get;set; } = default!;
+        public IList<Contact> Contact { get; set; } = default!;
+
+        [BindProperty(SupportsGet = true)]
+        public string? SearchString { get; set; }
 
         public async Task OnGetAsync()
         {
-            Contact = await _context.Contacts.ToListAsync();
+            var contacts = from c in _context.Contacts
+                           select c;
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                contacts = contacts.Where(p => p.Category.Contains(SearchString));
+            }
+
+            Contact = await contacts.ToListAsync();
         }
     }
 }

@@ -17,5 +17,6 @@ namespace Phonebook.Models
         [Phone]
         [RegularExpression(@"^(?!00000)[0-9]{10,10}$")]
         public string PhoneNumber { get; set; }
+        public string Category { get; set; }
     }
 }
