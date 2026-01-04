@@ -16,6 +16,9 @@ namespace Phonebook.Pages.PhonebookOperations
     {
         private readonly Phonebook.Data.PhonebookContext _context;
 
+        [BindProperty(SupportsGet = true)]
+        public string? SearchString { get; set; }
+
         public IndexModel(Phonebook.Data.PhonebookContext context)
         {
             _context = context;
@@ -23,19 +26,20 @@ namespace Phonebook.Pages.PhonebookOperations
 
         public IList<Contact> Contact { get; set; } = default!;
 
-        [BindProperty(SupportsGet = true)]
-        public string? SearchString { get; set; }
-
         public async Task OnGetAsync()
         {
-            var contacts = from c in _context.Contacts
-                           select c;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                contacts = contacts.Where(p => p.Category.Contains(SearchString));
-            }
+            Contact = await _context.Contacts.ToListAsync();
+        }
 
-            Contact = await contacts.ToListAsync();
+        public IActionResult OnGetFilter()
+        {
+            // Filter your data using LINQ
+            var filteredData = _context.Contacts
+                .Where(c => string.IsNullOrEmpty(SearchString) || c.Category.Contains(SearchString))
+                .ToList();
+
+            // Returns ONLY the markup for the list/table
+            return Partial("Shared/_ResultsPartial", filteredData);
         }
     }
 }
