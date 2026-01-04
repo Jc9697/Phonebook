@@ -35,7 +35,11 @@ namespace Phonebook.Pages.PhonebookOperations
         {
             // Filter your data using LINQ
             var filteredData = _context.Contacts
-                .Where(c => string.IsNullOrEmpty(SearchString) || c.Category.Contains(SearchString))
+                .Where(c => string.IsNullOrEmpty(SearchString) ||
+                    c.Name.Contains(SearchString) ||
+                    c.Email.Contains(SearchString) ||
+                    c.PhoneNumber.Contains(SearchString) ||
+                    c.Category.Contains(SearchString))
                 .ToList();
 
             // Returns ONLY the markup for the list/table
