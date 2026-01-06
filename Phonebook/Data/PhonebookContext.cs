@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace Phonebook.Data
 {
-    public class PhonebookContext : DbContext
+    public class PhonebookContext : IdentityDbContext
     {
 
         public PhonebookContext(DbContextOptions<PhonebookContext> options)

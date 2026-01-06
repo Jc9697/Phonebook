@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Phonebook.Data;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<PhonebookContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<PhonebookContext>();
 builder.Services.AddRazorPages(options =>
 {
-    // Sets /Pages/Home/Dashboard.cshtml as the root page
-    options.Conventions.AddPageRoute("/PhonebookOperations/Index", "");
+    options.Conventions.AddPageRoute("/Identity/Account/Register", "");
 });
 
 var app = builder.Build();
