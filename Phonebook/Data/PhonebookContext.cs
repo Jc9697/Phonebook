@@ -9,10 +9,6 @@ namespace Phonebook.Data
         : base(options)
         {
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("Data Source=phonebook.db");
-        }
 
         public DbSet<Phonebook.Models.Contact> Contacts { get; set; }
     }
