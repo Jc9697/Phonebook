@@ -59,6 +59,7 @@
 	<ItemGroup>
 		<PackageReference Include="Htmx" Version="1.9.0" />
 		<PackageReference Include="Htmx.TagHelpers" Version="1.9.0" />
+		<PackageReference Include="Mailkit" Version="4.14.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
