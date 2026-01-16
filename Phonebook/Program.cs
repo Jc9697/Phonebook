@@ -1,10 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Phonebook.Data;
 using Microsoft.AspNetCore.Identity;
-using Phonebook.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Azure;
+using Phonebook.Data;
+using Phonebook.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+//string connectionString = builder.Configuration.GetConnectionString("EmailSettings:ConnectionString");
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -19,7 +21,12 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddPageRoute("/Identity/Account/Register", "");
 });
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddAzureClients(clientBuilder =>
+{
+    clientBuilder.AddEmailClient(builder.Configuration.GetConnectionString("AzureConnectionString"));
+});
+
+builder.Services.AddTransient<IEmailSender, AzureEmailService>();
 
 var app = builder.Build();
 
