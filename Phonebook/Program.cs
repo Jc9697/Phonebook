@@ -28,6 +28,13 @@ builder.Services.AddAzureClients(clientBuilder =>
 
 builder.Services.AddTransient<IEmailSender, AzureEmailService>();
 
+builder.Services.AddAuthorization(options =>
+{
+    // Define a policy that requires the 'email_confirmed' claim to be 'true'
+    options.AddPolicy("EmailConfirmedOnly", policy =>
+        policy.RequireClaim("email_confirmed", "true"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

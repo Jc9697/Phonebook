@@ -1,17 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Build.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Phonebook.Data;
 using Phonebook.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Phonebook.Pages.PhonebookOperations
 {
+    [Authorize(Policy = "EmailConfirmedOnly")]
     public class IndexModel : PageModel
     {
         private readonly Phonebook.Data.PhonebookContext _context;
