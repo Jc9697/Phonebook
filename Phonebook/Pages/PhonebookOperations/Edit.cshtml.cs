@@ -6,7 +6,7 @@ using Phonebook.Models;
 
 namespace Phonebook.Pages.PhonebookOperations
 {
-    [Authorize(Policy = "EmailConfirmedOnly")]
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly Phonebook.Data.PhonebookContext _context;
